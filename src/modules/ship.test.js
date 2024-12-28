@@ -12,16 +12,16 @@ describe("Ship class tests", () => {
     expect(ship.hits).toBe(1);
   });
 
+  test("isSunk() return false if all the parts are not hit", () => {
+    ship.hit();
+    expect(ship.isSunk()).toBeFalsy();
+  });
+
   test("isSunk() return true if all the parts are hit", () => {
     ship.hit();
     ship.hit();
     ship.hit();
-    expect(ship.isSunk()).toBe(true);
-  });
-
-  test("isSunk() return false if all the parts are not hit", () => {
-    ship.hit();
-    expect(ship.isSunk()).toBe(false);
+    expect(ship.isSunk()).toBeTruthy();
   });
 
   test("Ship of length 1 is sunk after 1 hit", () => {
