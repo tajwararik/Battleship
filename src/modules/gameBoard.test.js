@@ -1,4 +1,5 @@
 import { GameBoard } from "./gameBoard.js";
+import { Ship } from "./ships.js";
 
 describe("Game board class tests", () => {
   let gameBoard;
