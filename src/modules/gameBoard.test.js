@@ -26,3 +26,49 @@ describe("Game board class tests", () => {
     });
   });
 });
+
+describe("Ship placement tests", () => {
+  let gameBoard, ship;
+
+  beforeEach(() => {
+    gameBoard = new GameBoard();
+    ship = new Ship(3);
+  });
+
+  test("Horizontally placement tests", () => {
+    gameBoard.placeShips(ship, 0, 0, "horizontal");
+
+    expect(gameBoard.board[0][0]).toBe(ship);
+    expect(gameBoard.board[0][1]).toBe(ship);
+    expect(gameBoard.board[0][2]).toBe(ship);
+  });
+
+  test("Vertically placement tests", () => {
+    gameBoard.placeShips(ship, 0, 0, "vertical");
+
+    expect(gameBoard.board[0][0]).toBe(ship);
+    expect(gameBoard.board[1][0]).toBe(ship);
+    expect(gameBoard.board[2][0]).toBe(ship);
+  });
+
+  test("Ship's horizontal bound test", () => {
+    expect(() => gameBoard.placeShips(ship, 0, 8, "horizontal")).toThrow(
+      "Ship out of bounds"
+    );
+  });
+
+  test("Ship's vertical bound test", () => {
+    expect(() => gameBoard.placeShips(ship, 8, 0, "vertical")).toThrow(
+      "Ship out of bounds"
+    );
+  });
+
+  test("Overlap detecting test", () => {
+    gameBoard.placeShips(ship, 0, 0, "horizontal");
+    const ship2 = new Ship(2);
+
+    expect(() => gameBoard.placeShips(ship2, 0, 2, "horizontal")).toThrow(
+      "Overlap detected"
+    );
+  });
+});
