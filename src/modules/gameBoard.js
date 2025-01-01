@@ -1,8 +1,13 @@
+import { Ship } from "./ships";
+
 export class GameBoard {
   constructor() {
     this.board = Array(10)
       .fill()
       .map(() => Array(10).fill(null));
+
+    this.successfulAttacks = [];
+    this.missedAttacks = [];
   }
 
   placeShips(ship, x, y, direction) {
