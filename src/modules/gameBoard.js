@@ -51,4 +51,12 @@ export class GameBoard {
       return "Hit";
     }
   }
+
+  allShipsSunk() {
+    return this.board
+      .flat()
+      .every(
+        (cell) => cell === null || (cell instanceof Ship && cell.isSunk())
+      );
+  }
 }
