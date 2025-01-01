@@ -72,3 +72,45 @@ describe("Ship placement tests", () => {
     );
   });
 });
+
+describe("Receive attack tests", () => {
+  let gameBoard, ship;
+
+  beforeEach(() => {
+    gameBoard = new GameBoard();
+    ship = new Ship(3);
+    gameBoard.placeShips(ship, 0, 0, "horizontal");
+  });
+
+  test("Attack a ship and register a hit", () => {
+    expect(gameBoard.receiveAttack(0, 2)).toBe("Hit");
+    expect(ship.hits).toBe(1);
+  });
+
+  test("Attack a missed location", () => {
+    expect(gameBoard.receiveAttack(5, 5)).toBe("Miss");
+    expect(gameBoard.missedAttacks).toContainEqual([5, 5]);
+  });
+
+  test("Attack multiple times and sink a ship", () => {
+    gameBoard.receiveAttack(0, 0);
+    gameBoard.receiveAttack(0, 1);
+    gameBoard.receiveAttack(0, 2);
+
+    expect(ship.isSunk()).toBeTruthy();
+  });
+
+  test("Checking if all the ships are sunk", () => {
+    const ship2 = new Ship(2);
+    gameBoard.placeShips(ship2, 2, 3, "vertical");
+
+    gameBoard.receiveAttack(0, 0);
+    gameBoard.receiveAttack(0, 1);
+    gameBoard.receiveAttack(0, 2);
+
+    gameBoard.receiveAttack(2, 3);
+    gameBoard.receiveAttack(3, 3);
+
+    expect(gameBoard.allShipsSunk()).toBeTruthy();
+  });
+});
