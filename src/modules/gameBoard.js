@@ -29,4 +29,26 @@ export class GameBoard {
       }
     }
   }
+
+  receiveAttack(x, y) {
+    const target = this.board[x][y];
+
+    if (
+      this.missedAttacks.some(
+        ([first, second]) => x === first && y === second
+      ) ||
+      this.successfulAttacks.some(
+        ([first, second]) => x === first && y === second
+      )
+    )
+      throw Error("Already has been attacked");
+    else if (target === null) {
+      this.missedAttacks.push([x, y]);
+      return "Miss";
+    } else if (target instanceof Ship) {
+      target.hit();
+      this.successfulAttacks.push([x, y]);
+      return "Hit";
+    }
+  }
 }
