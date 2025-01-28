@@ -27,6 +27,6 @@ describe("Ship class tests", () => {
   test("Ship of length 1 is sunk after 1 hit", () => {
     const singleLengthShip = new Ship(1);
     singleLengthShip.hit();
-    expect(singleLengthShip.isSunk()).toBe(true);
+    expect(singleLengthShip.isSunk()).toBeTruthy();
   });
 });
