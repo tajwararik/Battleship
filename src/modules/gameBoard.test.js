@@ -39,26 +39,26 @@ describe("Ship placement tests", () => {
     gameBoard.placeShips(ship, 0, 0, "horizontal");
 
     expect(gameBoard.board[0][0]).toBe(ship);
-    expect(gameBoard.board[0][1]).toBe(ship);
-    expect(gameBoard.board[0][2]).toBe(ship);
+    expect(gameBoard.board[1][0]).toBe(ship);
+    expect(gameBoard.board[2][0]).toBe(ship);
   });
 
   test("Vertically placement tests", () => {
     gameBoard.placeShips(ship, 0, 0, "vertical");
 
     expect(gameBoard.board[0][0]).toBe(ship);
-    expect(gameBoard.board[1][0]).toBe(ship);
-    expect(gameBoard.board[2][0]).toBe(ship);
+    expect(gameBoard.board[0][1]).toBe(ship);
+    expect(gameBoard.board[0][2]).toBe(ship);
   });
 
   test("Ship's horizontal bound test", () => {
-    expect(() => gameBoard.placeShips(ship, 0, 8, "horizontal")).toThrow(
+    expect(() => gameBoard.placeShips(ship, 8, 0, "horizontal")).toThrow(
       "Ship out of bounds"
     );
   });
 
   test("Ship's vertical bound test", () => {
-    expect(() => gameBoard.placeShips(ship, 8, 0, "vertical")).toThrow(
+    expect(() => gameBoard.placeShips(ship, 0, 8, "vertical")).toThrow(
       "Ship out of bounds"
     );
   });
@@ -67,7 +67,7 @@ describe("Ship placement tests", () => {
     gameBoard.placeShips(ship, 0, 0, "horizontal");
     const ship2 = new Ship(2);
 
-    expect(() => gameBoard.placeShips(ship2, 0, 2, "horizontal")).toThrow(
+    expect(() => gameBoard.placeShips(ship2, 2, 0, "horizontal")).toThrow(
       "Overlap detected"
     );
   });
@@ -83,7 +83,7 @@ describe("Receive attack tests", () => {
   });
 
   test("Attack a ship and register a hit", () => {
-    expect(gameBoard.receiveAttack(0, 2)).toBe("Hit");
+    expect(gameBoard.receiveAttack(2, 0)).toBe("Hit");
     expect(ship.hits).toBe(1);
   });
 
@@ -94,8 +94,8 @@ describe("Receive attack tests", () => {
 
   test("Attack multiple times and sink a ship", () => {
     gameBoard.receiveAttack(0, 0);
-    gameBoard.receiveAttack(0, 1);
-    gameBoard.receiveAttack(0, 2);
+    gameBoard.receiveAttack(1, 0);
+    gameBoard.receiveAttack(2, 0);
 
     expect(ship.isSunk()).toBeTruthy();
   });
@@ -105,11 +105,11 @@ describe("Receive attack tests", () => {
     gameBoard.placeShips(ship2, 2, 3, "vertical");
 
     gameBoard.receiveAttack(0, 0);
-    gameBoard.receiveAttack(0, 1);
-    gameBoard.receiveAttack(0, 2);
+    gameBoard.receiveAttack(1, 0);
+    gameBoard.receiveAttack(2, 0);
 
     gameBoard.receiveAttack(2, 3);
-    gameBoard.receiveAttack(3, 3);
+    gameBoard.receiveAttack(2, 4);
 
     expect(gameBoard.allShipsSunk()).toBeTruthy();
   });

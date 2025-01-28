@@ -12,20 +12,20 @@ export class GameBoard {
 
   placeShips(ship, x, y, direction) {
     if (direction === "horizontal") {
-      if (y + ship.length >= 10) throw Error("Ship out of bounds");
-
-      for (let i = 0; i < ship.length; i++) {
-        if (this.board[x][y + i]) throw Error("Overlap detected");
-
-        this.board[x][y + i] = ship;
-      }
-    } else if (direction === "vertical") {
       if (x + ship.length >= 10) throw Error("Ship out of bounds");
 
       for (let i = 0; i < ship.length; i++) {
         if (this.board[x + i][y]) throw Error("Overlap detected");
 
         this.board[x + i][y] = ship;
+      }
+    } else if (direction === "vertical") {
+      if (y + ship.length >= 10) throw Error("Ship out of bounds");
+
+      for (let i = 0; i < ship.length; i++) {
+        if (this.board[x][y + i]) throw Error("Overlap detected");
+
+        this.board[x][y + i] = ship;
       }
     }
   }
