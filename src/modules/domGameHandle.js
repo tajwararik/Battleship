@@ -24,6 +24,17 @@ const computerShipsCoordinate = [
   { x: 0, y: 3, direction: "vertical" },
 ];
 
+function placeShips(ships, boards, coordinates) {
+  ships.forEach((ship, index) => {
+    const { x, y, direction } = coordinates[index];
+
+    boards.placeShips(ship, x, y, direction);
+  });
+}
+
+placeShips(ships, game.player.board, playerShipsCoordinate);
+placeShips(ships, game.computer.board, computerShipsCoordinate);
+
 const boardCells = game.player.board.board.length;
 
 export function createPlayerBoard() {
