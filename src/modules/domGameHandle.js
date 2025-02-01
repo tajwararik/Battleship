@@ -42,6 +42,7 @@ export function createPlayerBoard() {
     for (let j = 0; j < boardCells; j++) {
       const div = document.createElement("div");
       div.classList.add("grid");
+      if (game.player.board.board[i][j] !== null) div.classList.add("ship");
       playerBoard.append(div);
     }
   }
@@ -52,6 +53,7 @@ export function createComputerBoard() {
     for (let j = 0; j < boardCells; j++) {
       const div = document.createElement("div");
       div.classList.add("grid");
+      if (game.computer.board.board[i][j] !== null) div.classList.add("ship");
       computerBoard.append(div);
     }
   }
