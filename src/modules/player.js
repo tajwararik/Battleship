@@ -10,7 +10,9 @@ export class Player {
 
   attack(opponentBoard, x, y) {
     if (
-      this.previousAttacks.some(([first, second]) => x === first && y === second)
+      this.previousAttacks.some(
+        ([first, second]) => x === first && y === second
+      )
     )
       throw Error("This position has already been attacked");
     else {
@@ -26,7 +28,9 @@ export class Player {
       x = Math.floor(Math.random() * 10);
       y = Math.floor(Math.random() * 10);
     } while (
-      this.previousAttacks.some(([first, second]) => x === first && y === second)
+      this.previousAttacks.some(
+        ([first, second]) => x === first && y === second
+      )
     );
 
     this.previousAttacks.push([x, y]);
