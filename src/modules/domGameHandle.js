@@ -52,9 +52,25 @@ export function createComputerBoard() {
   for (let i = 0; i < boardCells; i++) {
     for (let j = 0; j < boardCells; j++) {
       const div = document.createElement("div");
+      div.setAttribute("id", `[${i}, ${j}]`);
       div.classList.add("grid");
       if (game.computer.board.board[i][j] !== null) div.classList.add("ship");
+      div.addEventListener("click", playerAttack);
       computerBoard.append(div);
     }
+  }
+}
+
+function playerAttack() {
+  if (this.classList.contains("ship")) {
+    const [x, y] = JSON.parse(this.getAttribute("id"));
+    game.player.attack(game.computer.board, x, y);
+    this.classList.add("attacked");
+
+    this.removeEventListener("click", playerAttack);
+  } else {
+    this.classList.add("missed");
+
+    this.removeEventListener("click", playerAttack);
   }
 }
