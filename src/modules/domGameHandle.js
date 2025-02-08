@@ -54,7 +54,7 @@ export function createComputerBoard() {
       const div = document.createElement("div");
       div.setAttribute("id", `[${i}, ${j}]`);
       div.classList.add("grid");
-      if (game.computer.board.board[i][j] !== null) div.classList.add("ship");
+      if (game.computer.board.board[i][j] instanceof Ship) div.classList.add("ship");
       div.addEventListener("click", playerAttack);
       computerBoard.append(div);
     }
