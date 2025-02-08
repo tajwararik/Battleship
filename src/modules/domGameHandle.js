@@ -93,3 +93,17 @@ function computerAttack() {
 
   game.switchTurn();
 }
+
+function updatePlayerBoardUI(x, y) {
+  const nodes = playerBoard.querySelectorAll(".grid");
+  nodes.forEach((node) => {
+    const [first, second] = JSON.parse(node.id);
+    if (x === first && y === second) {
+      if (node.classList.contains("ship")) {
+        node.classList.add("attacked");
+      } else {
+        node.classList.add("missed");
+      }
+    }
+  });
+}
