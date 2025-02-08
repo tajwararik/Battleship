@@ -41,8 +41,10 @@ export function createPlayerBoard() {
   for (let i = 0; i < boardCells; i++) {
     for (let j = 0; j < boardCells; j++) {
       const div = document.createElement("div");
+      div.setAttribute("id", `[${i}, ${j}]`);
       div.classList.add("grid");
-      if (game.player.board.board[i][j] !== null) div.classList.add("ship");
+      if (game.player.board.board[i][j] instanceof Ship)
+        div.classList.add("ship");
       playerBoard.append(div);
     }
   }
@@ -54,7 +56,8 @@ export function createComputerBoard() {
       const div = document.createElement("div");
       div.setAttribute("id", `[${i}, ${j}]`);
       div.classList.add("grid");
-      if (game.computer.board.board[i][j] instanceof Ship) div.classList.add("ship");
+      if (game.computer.board.board[i][j] instanceof Ship)
+        div.classList.add("ship");
       div.addEventListener("click", playerAttack);
       computerBoard.append(div);
     }
@@ -62,6 +65,8 @@ export function createComputerBoard() {
 }
 
 function playerAttack() {
+  if (game.currentPlayer !== "player") return;
+
   if (this.classList.contains("ship")) {
     const [x, y] = JSON.parse(this.getAttribute("id"));
     game.player.attack(game.computer.board, x, y);
@@ -73,4 +78,18 @@ function playerAttack() {
 
     this.removeEventListener("click", playerAttack);
   }
+
+  game.switchTurn();
+  setTimeout(computerAttack, 1000);
+}
+
+function computerAttack() {
+  if (game.currentPlayer !== "computer") return;
+
+  game.computer.randomAttack(game.player.board);
+  const [coordinates] = game.computer.previousAttacks.slice(-1);
+  const [x, y] = coordinates;
+  updatePlayerBoardUI(x, y);
+
+  game.switchTurn();
 }
