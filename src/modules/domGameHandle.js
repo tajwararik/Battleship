@@ -77,10 +77,10 @@ function playerAttack() {
     this.classList.add("missed");
 
     this.removeEventListener("click", playerAttack);
-  }
 
-  game.switchTurn();
-  setTimeout(computerAttack, 1000);
+    game.switchTurn();
+    setTimeout(computerAttack, 1000);
+  }
 }
 
 function computerAttack() {
@@ -90,8 +90,6 @@ function computerAttack() {
   const [coordinates] = game.computer.previousAttacks.slice(-1);
   const [x, y] = coordinates;
   updatePlayerBoardUI(x, y);
-
-  game.switchTurn();
 }
 
 function updatePlayerBoardUI(x, y) {
@@ -101,8 +99,10 @@ function updatePlayerBoardUI(x, y) {
     if (x === first && y === second) {
       if (node.classList.contains("ship")) {
         node.classList.add("attacked");
+        setTimeout(computerAttack, 1000);
       } else {
         node.classList.add("missed");
+        game.switchTurn();
       }
     }
   });
