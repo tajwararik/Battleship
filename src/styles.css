@@ -32,6 +32,9 @@ body {
   width: 35px;
   height: 35px;
   border: 0.1px solid #000;
+}
+
+#computer-board > .grid {
   cursor: pointer;
 }
 
