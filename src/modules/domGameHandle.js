@@ -67,6 +67,15 @@ export function createComputerBoard() {
 function playerAttack() {
   if (game.currentPlayer !== "player") return;
 
+  if (game.checkGameOver()) {
+    const nodes = playerBoard.querySelectorAll(".grid");
+    nodes.forEach((node) => {
+      node.removeEventListener("click", playerAttack);
+    });
+
+    return;
+  }
+
   if (this.classList.contains("ship")) {
     const [x, y] = JSON.parse(this.getAttribute("id"));
     game.player.attack(game.computer.board, x, y);
