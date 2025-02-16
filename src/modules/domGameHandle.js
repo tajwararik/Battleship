@@ -95,6 +95,10 @@ function playerAttack() {
 function computerAttack() {
   if (game.currentPlayer !== "computer") return;
 
+  if (game.checkGameOver()) {
+    return;
+  }
+
   game.computer.randomAttack(game.player.board);
   const [coordinates] = game.computer.previousAttacks.slice(-1);
   const [x, y] = coordinates;
