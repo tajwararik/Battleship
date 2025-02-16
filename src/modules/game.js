@@ -8,6 +8,12 @@ export class Game {
   }
 
   switchTurn() {
-    this.currentPlayer = this.currentPlayer === "player" ? "computer" : "player";
+    this.currentPlayer =
+      this.currentPlayer === "player" ? "computer" : "player";
+  }
+
+  checkGameOver() {
+    if (this.player.board.allShipsSunk() || this.computer.board.allShipsSunk())
+      return true;
   }
 }
