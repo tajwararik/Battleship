@@ -3,6 +3,7 @@ import { Ship } from "./ships.js";
 
 const playerBoard = document.querySelector("#player-board");
 const computerBoard = document.querySelector("#computer-board");
+const displayMessage = document.querySelector(".display-message");
 
 const game = new Game();
 
@@ -73,6 +74,7 @@ function playerAttack() {
       node.removeEventListener("click", playerAttack);
     });
 
+    displayMessage.textContent = `${game.currentPlayer} won!!!`;
     return;
   }
 
@@ -88,6 +90,7 @@ function playerAttack() {
     this.removeEventListener("click", playerAttack);
 
     game.switchTurn();
+    handleDisplayMessage();
     setTimeout(computerAttack, 1000);
   }
 }
@@ -96,6 +99,7 @@ function computerAttack() {
   if (game.currentPlayer !== "computer") return;
 
   if (game.checkGameOver()) {
+    displayMessage.textContent = `${game.currentPlayer} won!!!`;
     return;
   }
 
@@ -116,7 +120,12 @@ function updatePlayerBoardUI(x, y) {
       } else {
         node.classList.add("missed");
         game.switchTurn();
+        setTimeout(handleDisplayMessage, 300);
       }
     }
   });
+}
+
+export function handleDisplayMessage() {
+  displayMessage.textContent = `${game.currentPlayer}'s turn!`;
 }
