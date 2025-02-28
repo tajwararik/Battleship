@@ -7,7 +7,21 @@ const displayMessage = document.querySelector(".display-message");
 
 const game = new Game();
 
-const ships = [new Ship(1), new Ship(2), new Ship(3), new Ship(4), new Ship(5)];
+const playerShips = [
+  new Ship(1),
+  new Ship(2),
+  new Ship(3),
+  new Ship(4),
+  new Ship(5),
+];
+
+const computerShips = [
+  new Ship(1),
+  new Ship(2),
+  new Ship(3),
+  new Ship(4),
+  new Ship(5),
+];
 
 const playerShipsCoordinate = [
   { x: 2, y: 1, direction: "horizontal" },
@@ -25,7 +39,7 @@ const computerShipsCoordinate = [
   { x: 0, y: 3, direction: "vertical" },
 ];
 
-function placeShips(ships, boards, coordinates) {
+function shipsPlacements(ships, boards, coordinates) {
   ships.forEach((ship, index) => {
     const { x, y, direction } = coordinates[index];
 
@@ -33,8 +47,8 @@ function placeShips(ships, boards, coordinates) {
   });
 }
 
-placeShips(ships, game.player.board, playerShipsCoordinate);
-placeShips(ships, game.computer.board, computerShipsCoordinate);
+shipsPlacements(playerShips, game.player.board, playerShipsCoordinate);
+shipsPlacements(computerShips, game.computer.board, computerShipsCoordinate);
 
 const boardCells = game.player.board.board.length;
 
