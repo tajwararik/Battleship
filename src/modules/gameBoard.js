@@ -53,10 +53,10 @@ export class GameBoard {
   }
 
   allShipsSunk() {
-    return this.board
-      .flat()
-      .every(
-        (cell) => cell === null || (cell instanceof Ship && cell.isSunk())
-      );
+    const ships = new Set(
+      this.board.flat().filter((cell) => cell instanceof Ship)
+    );
+
+    return [...ships].every((ship) => ship.isSunk());
   }
 }
