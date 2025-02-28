@@ -82,22 +82,22 @@ export function createComputerBoard() {
 function playerAttack() {
   if (game.currentPlayer !== "player") return;
 
-  if (game.checkGameOver()) {
-    const nodes = playerBoard.querySelectorAll(".grid");
-    nodes.forEach((node) => {
-      node.removeEventListener("click", playerAttack);
-    });
-
-    displayMessage.textContent = `${game.currentPlayer} won!!!`;
-    return;
-  }
-
   if (this.classList.contains("ship")) {
     const [x, y] = JSON.parse(this.getAttribute("id"));
     game.player.attack(game.computer.board, x, y);
     this.classList.add("attacked");
 
     this.removeEventListener("click", playerAttack);
+
+    if (game.checkGameOver()) {
+      const nodes = playerBoard.querySelectorAll(".grid");
+      nodes.forEach((node) => {
+        node.removeEventListener("click", playerAttack);
+      });
+
+      displayMessage.textContent = `${game.currentPlayer} won!!!`;
+      return;
+    }
   } else {
     this.classList.add("missed");
 
