@@ -4,24 +4,12 @@ import { Ship } from "./ships.js";
 const playerBoard = document.querySelector("#player-board");
 const computerBoard = document.querySelector("#computer-board");
 const displayMessage = document.querySelector(".display-message");
+const resetButton = document.querySelector(".btn > button");
 
 const game = new Game();
 
-const playerShips = [
-  new Ship(1),
-  new Ship(2),
-  new Ship(3),
-  new Ship(4),
-  new Ship(5),
-];
-
-const computerShips = [
-  new Ship(1),
-  new Ship(2),
-  new Ship(3),
-  new Ship(4),
-  new Ship(5),
-];
+let playerShips = [1, 2, 3, 4, 5].map((i) => new Ship(i));
+let computerShips = [1, 2, 3, 4, 5].map((i) => new Ship(i));
 
 const playerShipsCoordinate = [
   { x: 2, y: 1, direction: "horizontal" },
@@ -82,6 +70,8 @@ export function createComputerBoard() {
 function playerAttack() {
   if (game.currentPlayer !== "player") return;
 
+  if (game.checkGameOver()) return;
+
   if (this.classList.contains("ship")) {
     const [x, y] = JSON.parse(this.getAttribute("id"));
     game.player.attack(game.computer.board, x, y);
@@ -90,11 +80,6 @@ function playerAttack() {
     this.removeEventListener("click", playerAttack);
 
     if (game.checkGameOver()) {
-      const nodes = playerBoard.querySelectorAll(".grid");
-      nodes.forEach((node) => {
-        node.removeEventListener("click", playerAttack);
-      });
-
       displayMessage.textContent = `${game.currentPlayer} won!!!`;
       return;
     }
@@ -142,4 +127,46 @@ function updatePlayerBoardUI(x, y) {
 
 export function handleDisplayMessage() {
   displayMessage.textContent = `${game.currentPlayer}'s turn!`;
+}
+
+resetButton.addEventListener("click", () => {
+  clearBoards();
+
+  game.player.board.board = Array(10)
+    .fill()
+    .map(() => Array(10).fill(null));
+
+  game.computer.board.board = Array(10)
+    .fill()
+    .map(() => Array(10).fill(null));
+
+  playerShips = [1, 2, 3, 4, 5].map((i) => new Ship(i));
+  computerShips = [1, 2, 3, 4, 5].map((i) => new Ship(i));
+
+  shipsPlacements(playerShips, game.player.board, playerShipsCoordinate);
+  shipsPlacements(computerShips, game.computer.board, computerShipsCoordinate);
+
+  game.currentPlayer = "player";
+
+  createPlayerBoard();
+  createComputerBoard();
+  handleDisplayMessage();
+});
+
+function clearBoards() {
+  while (playerBoard.firstChild && computerBoard.firstChild) {
+    playerBoard.removeChild(playerBoard.firstChild);
+    computerBoard.removeChild(computerBoard.firstChild);
+  }
+
+  game.player.board.board = [];
+  game.computer.board.board = [];
+
+  game.player.previousAttacks = [];
+  game.player.board.successfulAttacks = [];
+  game.player.board.missedAttacks = [];
+
+  game.computer.previousAttacks = [];
+  game.computer.board.successfulAttacks = [];
+  game.computer.board.missedAttacks = [];
 }
