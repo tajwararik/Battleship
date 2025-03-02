@@ -52,6 +52,10 @@ body {
   cursor: pointer;
 }
 
+#player-board > .ship {
+  background-color: #0f0;
+}
+
 #player-board > .attacked,
 #computer-board > .attacked {
   background-color: #f00;
