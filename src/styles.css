@@ -29,6 +29,19 @@ body {
   flex-wrap: wrap;
 }
 
+.btn {
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+.btn > button {
+  font-size: 1rem;
+  padding: 8px 6px;
+  border: 1px solid #000;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
 .grid {
   width: 35px;
   height: 35px;
@@ -39,7 +52,8 @@ body {
   cursor: pointer;
 }
 
-.attacked {
+#player-board > .attacked,
+#computer-board > .attacked {
   background-color: #f00;
 }
 
