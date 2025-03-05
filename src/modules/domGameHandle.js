@@ -143,6 +143,8 @@ resetButton.addEventListener("click", () => {
   playerShips = [1, 2, 3, 4, 5].map((i) => new Ship(i));
   computerShips = [1, 2, 3, 4, 5].map((i) => new Ship(i));
 
+  changeShipsCoordinate();
+
   shipsPlacements(playerShips, game.player.board, playerShipsCoordinate);
   shipsPlacements(computerShips, game.computer.board, computerShipsCoordinate);
 
@@ -169,4 +171,90 @@ function clearBoards() {
   game.computer.previousAttacks = [];
   game.computer.board.successfulAttacks = [];
   game.computer.board.missedAttacks = [];
+}
+
+function changeShipsCoordinate() {
+  const playerBoard = Array(10)
+    .fill()
+    .map(() => Array(10).fill(null));
+
+  const computerBoard = Array(10)
+    .fill()
+    .map(() => Array(10).fill(null));
+
+  playerShipsCoordinate.forEach((_, index, array) => {
+    let x, y, direction, isValid;
+
+    do {
+      isValid = true;
+      x = Math.floor(Math.random() * 10);
+      y = Math.floor(Math.random() * 10);
+      direction = Math.random() > 0.5 ? "horizontal" : "vertical";
+
+      if (direction === "horizontal" && y + playerShips[index].length > 10)
+        isValid = false;
+      else if (direction === "vertical" && x + playerShips[index].length > 10)
+        isValid = false;
+
+      if (isValid) {
+        for (let i = 0; i < playerShips[index].length; i++) {
+          if (
+            (direction === "horizontal" && playerBoard[x][y + i]) ||
+            (direction === "vertical" && playerBoard[x + i][y])
+          ) {
+            isValid = false;
+            break;
+          }
+        }
+      }
+    } while (!isValid);
+
+    for (let i = 0; i < playerShips[index].length; i++) {
+      if (direction === "horizontal")
+        playerBoard[x][y + i] = playerShips[index];
+      else playerBoard[x + i][y] = playerShips[index];
+
+      array[index].x = x;
+      array[index].y = y;
+      array[index].direction = direction;
+    }
+  });
+
+  computerShipsCoordinate.forEach((_, index, array) => {
+    let x, y, direction, isValid;
+
+    do {
+      isValid = true;
+      x = Math.floor(Math.random() * 10);
+      y = Math.floor(Math.random() * 10);
+      direction = Math.random() > 0.5 ? "horizontal" : "vertical";
+
+      if (direction === "horizontal" && y + computerShips[index].length > 10)
+        isValid = false;
+      else if (direction === "vertical" && x + computerShips[index].length > 10)
+        isValid = false;
+
+      if (isValid) {
+        for (let i = 0; i < computerShips[index].length; i++) {
+          if (
+            (direction === "horizontal" && computerBoard[x][y + i]) ||
+            (direction === "vertical" && computerBoard[x + i][y])
+          ) {
+            isValid = false;
+            break;
+          }
+        }
+      }
+    } while (!isValid);
+
+    for (let i = 0; i < computerShips[index].length; i++) {
+      if (direction === "horizontal")
+        computerBoard[x][y + i] = computerShips[index];
+      else computerBoard[x + i][y] = computerShips[index];
+
+      array[index].x = x;
+      array[index].y = y;
+      array[index].direction = direction;
+    }
+  });
 }
