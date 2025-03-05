@@ -8,9 +8,11 @@ const resetButton = document.querySelector(".btn > button");
 
 const game = new Game();
 
+// Creating ships for player and computer
 let playerShips = [1, 2, 3, 4, 5].map((i) => new Ship(i));
 let computerShips = [1, 2, 3, 4, 5].map((i) => new Ship(i));
 
+// Default coordinates for player's ships
 const playerShipsCoordinate = [
   { x: 2, y: 1, direction: "horizontal" },
   { x: 0, y: 7, direction: "horizontal" },
@@ -19,6 +21,7 @@ const playerShipsCoordinate = [
   { x: 8, y: 4, direction: "horizontal" },
 ];
 
+// Default coordinates for computer's ships
 const computerShipsCoordinate = [
   { x: 3, y: 9, direction: "horizontal" },
   { x: 9, y: 6, direction: "horizontal" },
@@ -27,11 +30,12 @@ const computerShipsCoordinate = [
   { x: 0, y: 3, direction: "vertical" },
 ];
 
-function shipsPlacements(ships, boards, coordinates) {
+// PLacing ships on the board for both
+function shipsPlacements(ships, board, coordinates) {
   ships.forEach((ship, index) => {
     const { x, y, direction } = coordinates[index];
 
-    boards.placeShips(ship, x, y, direction);
+    board.placeShips(ship, x, y, direction);
   });
 }
 
@@ -103,6 +107,7 @@ function computerAttack() {
   }
 
   game.computer.randomAttack(game.player.board);
+  // Getting the last value of previousAttacks array
   const [coordinates] = game.computer.previousAttacks.slice(-1);
   const [x, y] = coordinates;
   updatePlayerBoardUI(x, y);
@@ -115,6 +120,7 @@ function updatePlayerBoardUI(x, y) {
     if (x === first && y === second) {
       if (node.classList.contains("ship")) {
         node.classList.add("attacked");
+        // Ship found, attack again
         setTimeout(computerAttack, 1000);
       } else {
         node.classList.add("missed");
@@ -156,11 +162,13 @@ resetButton.addEventListener("click", () => {
 });
 
 function clearBoards() {
+  // Clearing the boards
   while (playerBoard.firstChild && computerBoard.firstChild) {
     playerBoard.removeChild(playerBoard.firstChild);
     computerBoard.removeChild(computerBoard.firstChild);
   }
 
+  // Emptying all stored values
   game.player.board.board = [];
   game.computer.board.board = [];
 
@@ -174,6 +182,7 @@ function clearBoards() {
 }
 
 function changeShipsCoordinate() {
+  // Creating board for testing generated coordinates
   const playerBoard = Array(10)
     .fill()
     .map(() => Array(10).fill(null));
@@ -209,11 +218,13 @@ function changeShipsCoordinate() {
       }
     } while (!isValid);
 
+    // Placing ships on the player's testing board
     for (let i = 0; i < playerShips[index].length; i++) {
       if (direction === "horizontal")
         playerBoard[x][y + i] = playerShips[index];
       else playerBoard[x + i][y] = playerShips[index];
 
+      // Creating new coordinates
       array[index].x = x;
       array[index].y = y;
       array[index].direction = direction;
@@ -247,11 +258,13 @@ function changeShipsCoordinate() {
       }
     } while (!isValid);
 
+    // Placing ships on the computer's testing board
     for (let i = 0; i < computerShips[index].length; i++) {
       if (direction === "horizontal")
         computerBoard[x][y + i] = computerShips[index];
       else computerBoard[x + i][y] = computerShips[index];
 
+      // Creating new coordinates
       array[index].x = x;
       array[index].y = y;
       array[index].direction = direction;
