@@ -2,6 +2,7 @@ import { Ship } from "./ships";
 
 export class GameBoard {
   constructor() {
+    // Creating 10x10 array with null values
     this.board = Array(10)
       .fill()
       .map(() => Array(10).fill(null));
@@ -15,16 +16,20 @@ export class GameBoard {
       if (y + ship.length > 10) throw Error("Ship out of bounds");
 
       for (let i = 0; i < ship.length; i++) {
+        // Already ship exist
         if (this.board[x][y + i]) throw Error("Overlap detected");
 
+        // Placing ship horizontally is the cell is null
         this.board[x][y + i] = ship;
       }
     } else if (direction === "vertical") {
       if (x + ship.length > 10) throw Error("Ship out of bounds");
 
       for (let i = 0; i < ship.length; i++) {
+        // Already ship exist
         if (this.board[x + i][y]) throw Error("Overlap detected");
 
+        // Placing ship vertically is the cell is null
         this.board[x + i][y] = ship;
       }
     }
