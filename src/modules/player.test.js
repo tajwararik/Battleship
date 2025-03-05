@@ -2,31 +2,31 @@ import { Player } from "./player.js";
 import { Ship } from "./ships.js";
 
 describe("Player class tests", () => {
-  let playerOne, computer, ship;
+  let player, computer, ship;
 
   beforeEach(() => {
-    playerOne = new Player("Player One");
-    computer = new Player("Computer", true);
+    player = new Player("Player");
+    computer = new Player("Computer");
     ship = new Ship(3);
     computer.board.placeShips(ship, 0, 0, "horizontal");
-    playerOne.board.placeShips(ship, 0, 0, "vertical");
+    player.board.placeShips(ship, 0, 0, "vertical");
   });
 
-  test("Player one attacks computer's board", () => {
-    expect(playerOne.attack(computer.board, 0, 0)).toBe("Hit");
+  test("Player attacks computer's board", () => {
+    expect(player.attack(computer.board, 0, 0)).toBe("Hit");
     expect(ship.hits).toBe(1);
   });
 
-  test("Player one attacks on same location", () => {
-    playerOne.attack(computer.board, 0, 0);
+  test("Player attacks on same location", () => {
+    player.attack(computer.board, 0, 0);
 
-    expect(() => playerOne.attack(computer.board, 0, 0)).toThrow(
+    expect(() => player.attack(computer.board, 0, 0)).toThrow(
       "This position has already been attacked"
     );
   });
 
   test("Computer makes a valid attack on player's board", () => {
-    const result = computer.randomAttack(playerOne.board);
+    const result = computer.randomAttack(player.board);
 
     expect(["Hit", "Miss"]).toContain(result);
     expect(computer.previousAttacks.length).toBe(1);
@@ -34,13 +34,15 @@ describe("Player class tests", () => {
 
   test("Computer doesn't make a duplicate attack", () => {
     for (let i = 0; i < 100; i++) {
-      computer.randomAttack(playerOne.board);
+      computer.randomAttack(player.board);
     }
 
+    // Creating a Set from previousAttacks array
     const uniqueAttacks = new Set(
       computer.previousAttacks.map(([x, y]) => `${x}, ${y}`)
     );
 
+    // Checking if both has the same length
     expect(uniqueAttacks.size).toBe(computer.previousAttacks.length);
   });
 });
