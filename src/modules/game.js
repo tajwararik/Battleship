@@ -3,11 +3,12 @@ import { Player } from "./player.js";
 export class Game {
   constructor() {
     this.player = new Player("Player");
-    this.computer = new Player("Computer", true);
+    this.computer = new Player("Computer");
     this.currentPlayer = "player";
   }
 
   switchTurn() {
+    // Changing the current player
     this.currentPlayer =
       this.currentPlayer === "player" ? "computer" : "player";
   }
