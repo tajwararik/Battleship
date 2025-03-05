@@ -1,13 +1,13 @@
 import { GameBoard } from "./gameBoard.js";
 
 export class Player {
-  constructor(name, isComputer = false) {
+  constructor(name) {
     this.name = name;
-    this.isComputer = isComputer;
     this.board = new GameBoard();
     this.previousAttacks = [];
   }
 
+  // Attack method for player
   attack(opponentBoard, x, y) {
     if (
       this.previousAttacks.some(
@@ -21,6 +21,7 @@ export class Player {
     }
   }
 
+  // Random attack method for computer
   randomAttack(opponentBoard) {
     let x, y;
 
